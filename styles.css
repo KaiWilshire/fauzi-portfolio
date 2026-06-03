@@ -14,6 +14,7 @@ body {
   color: #000000;
   font-family: "Inter", Arial, sans-serif;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 img {
@@ -54,6 +55,7 @@ a {
   border: 0;
   color: #ffffff;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.72);
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
 .brand {
@@ -456,6 +458,12 @@ h2 {
     text-shadow: none;
   }
 
+  body.is-viewing-poems .site-header {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -120%);
+  }
+
   .nav-toggle {
     display: block;
   }
@@ -558,13 +566,20 @@ h2 {
   .contact-grid > div,
   .contact-card {
     width: 100%;
+    min-width: 0;
   }
 
   .book-copy h2,
   .contact-section h2 {
     max-width: 100%;
-    font-size: clamp(2.65rem, 13vw, 4.4rem);
+    overflow-wrap: anywhere;
+    font-size: clamp(2.35rem, 11vw, 3.55rem);
     line-height: 0.98;
+  }
+
+  .contact-card,
+  .contact-card * {
+    overflow-wrap: anywhere;
   }
 }
 
@@ -658,13 +673,14 @@ h2 {
 
   .book-section,
   .contact-section {
-    padding-top: 92px;
-    padding-bottom: 74px;
+    padding-top: 104px;
+    padding-bottom: 104px;
   }
 
   .book-copy h2,
   .contact-section h2 {
-    font-size: clamp(2.55rem, 15vw, 4rem);
+    font-size: clamp(2.2rem, 11.5vw, 3.05rem);
+    line-height: 1;
   }
 
   .book-copy p,
@@ -674,6 +690,24 @@ h2 {
 
   .contact-card {
     padding: 22px;
+  }
+
+  .contact-section .kicker {
+    margin-bottom: 14px;
+  }
+
+  .contact-grid {
+    gap: 34px;
+  }
+
+  .contact-row {
+    padding: 14px 0;
+  }
+
+  .contact-row span:not(.contact-label),
+  .contact-row a {
+    font-size: 1rem;
+    line-height: 1.45;
   }
 
   .feedback-button {

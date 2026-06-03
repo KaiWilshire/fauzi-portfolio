@@ -168,6 +168,8 @@ function setupActiveNavigation() {
           const matchesSection = link.getAttribute("href") === `#${entry.target.id}`;
           link.classList.toggle("is-active", matchesSection);
         });
+
+        document.body.classList.toggle("is-viewing-poems", entry.target.id === "poems");
       });
     },
     { rootMargin: "-35% 0px -55% 0px" }
