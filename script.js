@@ -55,6 +55,20 @@ const SITE_SETTINGS = {
     "images/9.png",
     "images/10.png",
   ],
+
+  // CHANGE POEM IMAGE URL HERE - Mobile-only vertical poem images
+  poemImagesVertical: [
+    "images/vertical/1.png",
+    "images/vertical/2.png",
+    "images/vertical/3.png",
+    "images/vertical/4.png",
+    "images/vertical/5.png",
+    "images/vertical/6.png",
+    "images/vertical/7.png",
+    "images/vertical/8.png",
+    "images/vertical/9.png",
+    "images/vertical/10.png",
+  ],
 };
 
 // Adds the editable text and image URLs to the page.
@@ -82,11 +96,16 @@ function buildPoemSections() {
     poemItem.className = "poem-panel";
 
     const number = String(index + 1).padStart(2, "0");
+    const verticalImageUrl = SITE_SETTINGS.poemImagesVertical[index] || imageUrl;
 
     poemItem.innerHTML = `
       <figure class="poem-frame">
         <!-- CHANGE POEM IMAGE URL HERE -->
-        <img src="${imageUrl}" alt="Poem ${number}">
+        <picture>
+          <!-- CHANGE POEM IMAGE URL HERE -->
+          <source media="(max-width: 700px)" srcset="${verticalImageUrl}">
+          <img src="${imageUrl}" alt="Poem ${number}">
+        </picture>
       </figure>
     `;
 
