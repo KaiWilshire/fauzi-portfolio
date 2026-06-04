@@ -6,11 +6,11 @@
 */
 const SITE_SETTINGS = {
   // CHANGE TEXT HERE - Main home heading
-  introTitle: "Poems for the places we keep inside.",
+  introTitle: "Unsaid Exhibition",
 
   // CHANGE TEXT HERE - Fauzi intro text
   introText:
-    "Fauzi gathers memory, tenderness, and stillness into poems that feel close to the skin. Step into selected works, book notes, and quiet correspondence.",
+    "Current exhibition at Stamford University, from 8 to 9 June. A quiet presentation of poems, memory, and the words left just beneath the surface.",
 
   // CHANGE TEXT HERE - Book information
   bookTitle: "Finding Home and Soul",
@@ -28,7 +28,7 @@ const SITE_SETTINGS = {
   contactHeading: "For readings, publishing notes, and quiet correspondence.",
 
   // CHANGE GOOGLE FORM LINK HERE - Feedback button URL
-  feedbackFormUrl: "https://forms.gle/your-placeholder-google-form",
+  feedbackFormUrl: "https://forms.gle/ZqKjU5CNuK7ikUdF7",
 
   // CHANGE BOOK BUY LINK HERE - Buy button URL
   bookBuyUrl: "https://example.com/buy-fauzi-book",
@@ -42,32 +42,36 @@ const SITE_SETTINGS = {
   // CHANGE IMAGE URL HERE - Book cover image
   bookCoverImageUrl: "images/book.png",
 
-  // CHANGE POEM IMAGE URL HERE - Replace these with your final poem image URLs
-  poemImages: [
-    "images/1.png",
-    "images/2.png",
-    "images/3.png",
-    "images/4.png",
-    "images/5.png",
-    "images/6.png",
-    "images/7.png",
-    "images/8.png",
-    "images/9.png",
-    "images/10.png",
-  ],
-
-  // CHANGE POEM IMAGE URL HERE - Mobile-only vertical poem images
-  poemImagesVertical: [
-    "images/vertical/1.png",
-    "images/vertical/2.png",
-    "images/vertical/3.png",
-    "images/vertical/4.png",
-    "images/vertical/5.png",
-    "images/vertical/6.png",
-    "images/vertical/7.png",
-    "images/vertical/8.png",
-    "images/vertical/9.png",
-    "images/vertical/10.png",
+  // CHANGE TEXT HERE / CHANGE POEM IMAGE URL HERE - Selected poems and explanations
+  selectedPoems: [
+    {
+      title: "Unsaid",
+      imageUrl: "images/Unsaid.png",
+      fullPoemImageUrl: "images/V-2- Unsaid.png",
+      explanation:
+        "Written for the words that stay in the chest: the almost-confessions, the paused messages, and the feelings that become heavier when they are never spoken.",
+    },
+    {
+      title: "Muse",
+      imageUrl: "images/Muse.png",
+      fullPoemImageUrl: "images/V-4- Muse.png",
+      explanation:
+        "A reflection on inspiration as something tender and human, not distant. This poem looks at how a presence can quietly shape a whole inner world.",
+    },
+    {
+      title: "Modern",
+      imageUrl: "images/Modern.png",
+      fullPoemImageUrl: "images/V-3- Modern.png",
+      explanation:
+        "Written from the tension of living softly in a fast world. It asks what parts of ourselves survive when everything around us keeps changing.",
+    },
+    {
+      title: "Chronically Online",
+      imageUrl: "images/Chronically online.png",
+      fullPoemImageUrl: "images/V-1- Chronically.png",
+      explanation:
+        "A poem about digital noise, attention, and the strange loneliness of always being connected while still wanting to be truly seen.",
+    },
   ],
 };
 
@@ -87,29 +91,54 @@ function fillPageContent() {
   document.getElementById("book-buy-button").href = SITE_SETTINGS.bookBuyUrl;
 }
 
-// Creates the ten full-screen poem image sections from the editable poem array above.
+// Creates the selected poem explanations from the editable poem array above.
 function buildPoemSections() {
   const poemsList = document.getElementById("poems-list");
 
-  SITE_SETTINGS.poemImages.forEach((imageUrl, index) => {
+  SITE_SETTINGS.selectedPoems.forEach((poem, index) => {
     const poemItem = document.createElement("article");
-    poemItem.className = "poem-panel";
+    poemItem.className = "selected-poem";
 
     const number = String(index + 1).padStart(2, "0");
-    const verticalImageUrl = SITE_SETTINGS.poemImagesVertical[index] || imageUrl;
 
     poemItem.innerHTML = `
-      <figure class="poem-frame">
+      <button class="selected-poem-image" type="button" data-poem-image="${poem.fullPoemImageUrl}" data-poem-title="${poem.title}">
         <!-- CHANGE POEM IMAGE URL HERE -->
-        <picture>
-          <!-- CHANGE POEM IMAGE URL HERE -->
-          <source media="(max-width: 700px)" srcset="${verticalImageUrl}">
-          <img src="${imageUrl}" alt="Poem ${number}">
-        </picture>
-      </figure>
+        <img src="${poem.imageUrl}" alt="${poem.title} poem image">
+      </button>
+
+      <div class="selected-poem-copy">
+        <span>${number}</span>
+        <!-- CHANGE TEXT HERE -->
+        <h3>${poem.title}</h3>
+        <!-- CHANGE TEXT HERE -->
+        <p>${poem.explanation}</p>
+        <button class="text-link poem-read-button" type="button" data-poem-image="${poem.fullPoemImageUrl}" data-poem-title="${poem.title}">Read Full Poem</button>
+      </div>
     `;
 
     poemsList.appendChild(poemItem);
+  });
+}
+
+// Opens a minimal full-screen reader when a poem image is clicked.
+function setupPoemDialog() {
+  const dialog = document.getElementById("poem-dialog");
+  const dialogImage = document.getElementById("dialog-image");
+  const closeButton = document.getElementById("dialog-close");
+
+  document.querySelectorAll("[data-poem-image]").forEach((button) => {
+    button.addEventListener("click", () => {
+      dialogImage.src = button.dataset.poemImage;
+      dialogImage.alt = `${button.dataset.poemTitle} full poem`;
+      dialog.showModal();
+    });
+  });
+
+  closeButton.addEventListener("click", () => dialog.close());
+
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
   });
 }
 
@@ -169,7 +198,7 @@ function setupActiveNavigation() {
           link.classList.toggle("is-active", matchesSection);
         });
 
-        document.body.classList.toggle("is-viewing-poems", entry.target.id === "poems");
+        document.body.dataset.section = entry.target.id;
       });
     },
     { rootMargin: "-35% 0px -55% 0px" }
@@ -180,6 +209,7 @@ function setupActiveNavigation() {
 
 fillPageContent();
 buildPoemSections();
+setupPoemDialog();
 buildContactDetails();
 setupMobileNavigation();
 setupActiveNavigation();

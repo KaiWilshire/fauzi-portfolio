@@ -1,18 +1,29 @@
 /* Basic reset keeps spacing predictable across browsers. */
+@font-face {
+  font-family: "Le Jardin";
+  src: url("fonts/le-jardin-du-bonheur.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Winkle";
+  src: url("fonts/winkle-regular.ttf") format("truetype");
+  font-display: swap;
+}
+
 * {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
 }
 
 body {
   margin: 0;
   background: #ffffff;
   color: #000000;
-  font-family: "Inter", Arial, sans-serif;
+  font-family: "Winkle", Arial, sans-serif;
   line-height: 1.5;
   overflow-x: hidden;
 }
@@ -53,17 +64,24 @@ a {
   padding: 14px 0;
   background: transparent;
   border: 0;
-  color: #ffffff;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.72);
+  color: #000000;
+  text-shadow: 0 2px 18px rgba(255, 255, 255, 0.72);
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
+body[data-section="home"] .site-header {
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.72);
+}
+
 .brand {
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-family: "Le Jardin", Georgia, serif;
+  font-size: 2.35rem;
+  font-weight: 400;
   letter-spacing: 0;
+  line-height: 1;
   text-decoration: none;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .site-nav {
@@ -81,9 +99,15 @@ a {
 
 .site-nav a:hover,
 .site-nav a.is-active {
+  background: #000000;
+  color: #ffffff;
+  text-shadow: none;
+}
+
+body[data-section="home"] .site-nav a:hover,
+body[data-section="home"] .site-nav a.is-active {
   background: #ffffff;
   color: #000000;
-  text-shadow: none;
 }
 
 .nav-toggle {
@@ -101,7 +125,7 @@ a {
   width: 16px;
   height: 1px;
   margin: 4px auto;
-  background: #ffffff;
+  background: currentColor;
 }
 
 /* Shared section layout */
@@ -128,8 +152,8 @@ p {
 
 h1,
 h2 {
-  font-family: "Libre Baskerville", Georgia, serif;
-  font-weight: 700;
+  font-family: "Winkle", Georgia, serif;
+  font-weight: 400;
   letter-spacing: 0;
 }
 
@@ -157,8 +181,6 @@ h2 {
   min-height: 100svh;
   overflow: hidden;
   isolation: isolate;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 .hero-background,
@@ -300,46 +322,90 @@ h2 {
   margin-bottom: 52px;
 }
 
-/* Poem snap gallery */
+/* Selected poems */
 .poems-section {
-  background: #000000;
+  background: #ffffff;
+  padding: 92px 0 108px;
 }
 
 .poems-list {
   display: grid;
+  gap: 96px;
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
 }
 
-.poem-panel {
+.poems-intro {
+  padding-top: 0;
+  padding-bottom: 64px;
+}
+
+.poems-intro h2 {
+  max-width: 780px;
+}
+
+.selected-poem {
   display: grid;
-  place-items: center;
-  min-height: 100svh;
-  background: #ffffff;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.72fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
 }
 
-.poem-panel:nth-child(even) {
-  background: #000000;
+.selected-poem:nth-child(even) {
+  grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.08fr);
 }
 
-.poem-frame {
+.selected-poem:nth-child(even) .selected-poem-image {
+  order: 2;
+}
+
+.selected-poem-image {
   width: 100%;
-  height: 100svh;
-  margin: 0;
+  padding: 0;
   overflow: hidden;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 22px;
+  cursor: pointer;
 }
 
-.poem-frame picture {
-  display: block;
+.selected-poem-image img {
   width: 100%;
-  height: 100%;
-}
-
-.poem-frame img {
-  width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: center;
+  transition: transform 220ms ease;
+}
+
+.selected-poem-image:hover img {
+  transform: scale(1.02);
+}
+
+.selected-poem-copy span {
+  display: block;
+  margin-bottom: 18px;
+  font-size: 0.78rem;
+}
+
+.selected-poem-copy h3 {
+  margin: 0 0 22px;
+  font-size: clamp(2.3rem, 5vw, 5rem);
+  font-weight: 400;
+  line-height: 0.96;
+}
+
+.selected-poem-copy p {
+  max-width: 480px;
+  margin-bottom: 30px;
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+}
+
+.poem-read-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 /* Book and contact */
@@ -350,8 +416,6 @@ h2 {
   min-height: 100svh;
   padding-top: 110px;
   padding-bottom: 110px;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 .book-grid {
@@ -444,6 +508,41 @@ h2 {
   box-shadow: 0 14px 38px rgba(0, 0, 0, 0.22);
 }
 
+.poem-dialog {
+  width: min(1120px, calc(100% - 28px));
+  max-width: none;
+  max-height: calc(100svh - 28px);
+  padding: 54px 16px 16px;
+  background: #ffffff;
+  border: 0;
+  border-radius: 22px;
+}
+
+.poem-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.76);
+}
+
+.poem-dialog img {
+  width: 100%;
+  max-height: calc(100svh - 112px);
+  object-fit: contain;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  min-height: 34px;
+  padding: 0 14px;
+  background: #000000;
+  color: #ffffff;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+}
+
 /* Tablet and mobile layout */
 @media (max-width: 860px) {
   .site-header {
@@ -455,13 +554,16 @@ h2 {
     border: 1px solid rgba(255, 255, 255, 0.24);
     border-radius: 16px;
     backdrop-filter: blur(16px);
+    color: #ffffff;
     text-shadow: none;
   }
 
-  body.is-viewing-poems .site-header {
-    opacity: 0;
-    pointer-events: none;
-    transform: translate(-50%, -120%);
+  .site-nav a:hover,
+  .site-nav a.is-active,
+  body[data-section="home"] .site-nav a:hover,
+  body[data-section="home"] .site-nav a.is-active {
+    background: #ffffff;
+    color: #000000;
   }
 
   .nav-toggle {
@@ -496,8 +598,38 @@ h2 {
 
   .book-grid,
   .contact-grid,
-  .section-heading {
+  .section-heading,
+  .selected-poem,
+  .selected-poem:nth-child(even) {
     grid-template-columns: 1fr;
+  }
+
+  .selected-poem:nth-child(even) .selected-poem-image {
+    order: 0;
+  }
+
+  .poems-section {
+    padding: 86px 0 92px;
+  }
+
+  .poems-intro {
+    padding-bottom: 42px;
+  }
+
+  .poems-list {
+    gap: 64px;
+  }
+
+  .selected-poem {
+    gap: 24px;
+  }
+
+  .selected-poem-copy h3 {
+    font-size: clamp(2.25rem, 12vw, 3.4rem);
+  }
+
+  .selected-poem-copy p {
+    max-width: none;
   }
 
   .hero-background {
@@ -534,10 +666,6 @@ h2 {
     max-width: 560px;
     font-size: clamp(2.15rem, 8.5vw, 3.7rem);
     line-height: 1;
-  }
-
-  .poem-frame img {
-    object-fit: cover;
   }
 
   .book-copy {
@@ -595,7 +723,7 @@ h2 {
   }
 
   .brand {
-    font-size: 0.86rem;
+    font-size: 1.95rem;
   }
 
   .nav-toggle {
@@ -690,6 +818,17 @@ h2 {
 
   .contact-card {
     padding: 22px;
+  }
+
+  .poem-dialog {
+    width: calc(100% - 18px);
+    max-height: calc(100svh - 18px);
+    padding: 50px 10px 10px;
+    border-radius: 18px;
+  }
+
+  .poem-dialog img {
+    max-height: calc(100svh - 78px);
   }
 
   .contact-section .kicker {

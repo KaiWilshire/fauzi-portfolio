@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-section="home">
   <!--
     EDIT HERE
     Open script.js and edit the SITE_SETTINGS section at the very top.
@@ -22,7 +22,7 @@
     - Book buying link
     - Home background image URL
     - Image URLs
-    - Poem image URLs
+    - Selected poem image URLs and explanations
   -->
 
   <header class="site-header" aria-label="Main navigation">
@@ -69,6 +69,10 @@
     </section>
 
     <section class="poems-section" id="poems" aria-label="Poems">
+      <div class="section-shell poems-intro">
+        <p class="kicker">Selected Poems</p>
+        <h2>Four pieces, and the quiet reasons behind them.</h2>
+      </div>
       <div class="poems-list" id="poems-list" aria-live="polite"></div>
     </section>
 
@@ -108,6 +112,11 @@
 
   <!-- CHANGE GOOGLE FORM LINK HERE -->
   <a class="feedback-button" id="feedback-button" href="#" target="_blank" rel="noopener">Feedback</a>
+
+  <dialog class="poem-dialog" id="poem-dialog" aria-label="Full poem reader">
+    <button class="dialog-close" id="dialog-close" type="button">Close</button>
+    <img id="dialog-image" src="" alt="">
+  </dialog>
 
   <script src="script.js"></script>
 </body>
