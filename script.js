@@ -31,7 +31,7 @@ const SITE_SETTINGS = {
   feedbackFormUrl: "https://forms.gle/ZqKjU5CNuK7ikUdF7",
 
   // CHANGE BOOK BUY LINK HERE - Buy button URL
-  bookBuyUrl: "https://example.com/buy-fauzi-book",
+  bookBuyUrl: "https://forms.gle/czE615mKyARqgq6t9",
 
   // CHANGE IMAGE URL HERE - Home background image
   heroImageUrl: "images/BG.jpeg",
